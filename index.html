@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     <script type="text/javascript" id="CDA_AAS">
         window.cdaaas = window.cdaaas || {};
         window.cdaaas.SETTINGS = window.cdaaas.SETTINGS || {};
@@ -7144,7 +7145,98 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mc-column content-text active-extra-styles">
+                        <div id="registration-form">
+                            <h2>Registe-se para Começar a sua Jornada Financeira</h2>
+                            <form id="contactForm">
+                                <label for="name">Nome:</label>
+                                <input type="text" id="name" name="name" required placeholder="O seu nome">
+                                <span class="error-message" id="name-error"></span>
+
+                                <label for="surname">Sobrenome:</label>
+                                <input type="text" id="surname" name="surname" required placeholder="O seu sobrenome">
+                                <span class="error-message" id="surname-error"></span>
+
+                                <label for="email">E-mail:</label>
+                                <input type="email" id="email" name="email" required placeholder="O seu e-mail">
+                                <span class="error-message" id="email-error"></span>
+
+                                <label for="phone">Telefone:</label>
+                                <input type="tel" id="phone" name="phone" required>
+                                <span class="error-message" id="phone-error"></span>
+
+                                <button type="submit">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
                 </article>
+                <style>
+                    #registration-form {
+                        background-color: #f9f9f9;
+                        padding: 30px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                        margin-top: 40px;
+                    }
+
+                    #registration-form h2 {
+                        text-align: center;
+                        color: #333;
+                        margin-bottom: 25px;
+                    }
+
+                    #registration-form label {
+                        display: block;
+                        margin-bottom: 8px;
+                        font-weight: bold;
+                        color: #555;
+                    }
+
+                    #registration-form input[type="text"],
+                    #registration-form input[type="email"],
+                    #registration-form input[type="tel"] {
+                        width: calc(100% - 20px);
+                        /* Adjust for padding */
+                        padding: 10px;
+                        margin-bottom: 15px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        box-sizing: border-box;
+                    }
+
+                    #registration-form button {
+                        background-color: #007bff;
+                        color: white;
+                        padding: 12px 20px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 1.1em;
+                        width: 100%;
+                        transition: background-color 0.3s ease;
+                    }
+
+                    #registration-form button:hover {
+                        background-color: #0056b3;
+                    }
+
+                    .error-message {
+                        color: red;
+                        font-size: 0.9em;
+                        margin-top: -10px;
+                        margin-bottom: 10px;
+                        display: block;
+                    }
+
+                    .iti {
+                        width: 100%;
+                    }
+
+                    .iti__flag-container {
+                        position: relative;
+                        z-index: 1;/
+                    }
+                </style>
                 <div id="banner_touch_point_subcontent" class="banner_touch_point_subcontent--hide"></div>
                 <div class="mc-column comments">
                     <div id="boxComentarios"></div>
@@ -15697,6 +15789,71 @@
     </script>
     <script src="js/jquery.min.js" type="text/javascript" crossorigin="anonymous"></script>
     <script src="js/3879fc43808226e00a0575b84e67eb00.js" type="text/javascript" crossorigin="anonymous"></script>
-</body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        // Initialize intlTelInput
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            initialCountry: "pt", 
+            preferredCountries: ["pt", "br", "us", "gb"] 
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            let isValid = true;
+
+            document.getElementById('name-error').textContent = '';
+            document.getElementById('surname-error').textContent = '';
+            document.getElementById('email-error').textContent = '';
+            document.getElementById('phone-error').textContent = '';
+
+            const name = document.getElementById('name').value.trim();
+            if (name === '') {
+                document.getElementById('name-error').textContent = 'O nome é obrigatório.';
+                isValid = false;
+            }
+
+            const surname = document.getElementById('surname').value.trim();
+            if (surname === '') {
+                document.getElementById('surname-error').textContent = 'O sobrenome é obrigatório.';
+                isValid = false;
+            }
+
+            const email = document.getElementById('email').value.trim();
+            if (email === '') {
+                document.getElementById('email-error').textContent = 'O e-mail é obrigatório.';
+                isValid = false;
+            } else if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+                document.getElementById('email-error').textContent = 'Por favor, insira um e-mail válido.';
+                isValid = false;
+            }
+
+            if (!phoneInput.isValidNumber()) {
+                document.getElementById('phone-error').textContent = 'Por favor, insira um número de telefone válido.';
+                isValid = false;
+            }
+
+            if (isValid) {
+                window.location.href = 'thank_you.html';
+            }
+        });
+
+        document.querySelectorAll('a[href^="#registration-form"], button[data-scroll-to="#registration-form"]').forEach(element => {
+            element.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href') || this.dataset.scrollTo;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    </body>
 
 </html>
